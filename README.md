@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="tg">
 <head>
     <meta charset="UTF-8">
@@ -7,43 +8,14 @@
     <style>
         :root { --blue: #0095f6; --bg: #fafafa; --border: #dbdbdb; --red: #ed4956; }
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, sans-serif; }
-        
         body { background: var(--bg); display: flex; justify-content: center; height: 100vh; overflow: hidden; }
         .hidden { display: none !important; }
 
-        /* Контейнери асосӣ барои телефон */
-        .app-container { 
-            width: 100%; 
-            max-width: 450px; 
-            height: 100vh; 
-            background: white; 
-            position: relative; 
-            display: flex; 
-            flex-direction: column; 
-            overflow: hidden; 
-        }
-
-        header { 
-            height: 60px; 
-            border-bottom: 1px solid var(--border); 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center; 
-            padding: 0 15px; 
-            background: white; 
-            flex-shrink: 0; 
-        }
+        .app-container { width: 100%; max-width: 450px; height: 100vh; background: white; border: 1px solid var(--border); position: relative; display: flex; flex-direction: column; overflow: hidden; }
+        header { height: 60px; border-bottom: 1px solid var(--border); display: flex; justify-content: center; align-items: center; padding: 0 15px; background: white; flex-shrink: 0; }
         .logo { font-size: 24px; font-weight: bold; font-style: italic; }
 
-        /* Қисми саҳифаҳо бо ҳаракати Scroll */
-        .page { 
-            flex: 1; 
-            display: none; 
-            flex-direction: column; 
-            overflow-y: auto; 
-            background: white; 
-            padding-bottom: 20px;
-        }
+        .page { display: none; flex-direction: column; height: calc(100% - 110px); overflow-y: auto; background: white; flex: 1; }
         .active-page { display: flex; }
 
         /* POSTS */
@@ -53,39 +25,30 @@
         .post-img { width: 100%; aspect-ratio: 1/1; object-fit: cover; }
         .post-btns { padding: 10px; display: flex; gap: 15px; font-size: 22px; }
 
-        /* INPUTS & BUTTONS */
-        .auth-input { width: 100%; padding: 12px; margin-bottom: 10px; border: 1px solid var(--border); border-radius: 8px; outline: none; background: #fafafa; font-size: 16px; }
-        .btn-blue { width: 100%; padding: 10px; background: var(--blue); color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; }
-        
-        /* NAVIGATION BOTTOM */
-        .nav-bottom { 
-            height: 55px; 
-            border-top: 1px solid var(--border); 
-            display: flex; 
-            justify-content: space-around; 
-            align-items: center; 
-            background: white; 
-            flex-shrink: 0;
-            padding-bottom: env(safe-area-inset-bottom);
-        }
-        .nav-bottom i { font-size: 24px; cursor: pointer; color: #262626; }
-
-        /* MODALS */
-        .overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 1000; }
-        .modal { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; width: 85%; border-radius: 12px; padding: 20px; z-index: 1001; }
-
-        /* MESSAGES */
+        /* CHAT */
+        .search-bar { padding: 10px; position: sticky; top: 0; background: white; border-bottom: 1px solid #eee; }
+        .user-row { padding: 10px 15px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #f9f9f9; }
         .msg-box { flex: 1; padding: 15px; display: flex; flex-direction: column; gap: 10px; overflow-y: auto; background: #f0f2f5; }
         .msg { max-width: 75%; padding: 8px 12px; border-radius: 18px; font-size: 14px; }
         .sent { align-self: flex-end; background: var(--blue); color: white; }
         .rec { align-self: flex-start; background: white; }
+
+        /* INPUTS & BUTTONS */
+        .auth-input { width: 100%; padding: 12px; margin-bottom: 10px; border: 1px solid var(--border); border-radius: 8px; outline: none; background: #fafafa; font-size: 16px; }
+        .btn-blue { width: 100%; padding: 10px; background: var(--blue); color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; }
+        
+        .nav-bottom { height: 50px; border-top: 1px solid var(--border); display: flex; justify-content: space-around; align-items: center; background: white; flex-shrink: 0; }
+        .nav-bottom i { font-size: 24px; cursor: pointer; color: #262626; }
+
+        .overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 1000; }
+        .modal { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; width: 85%; border-radius: 12px; padding: 20px; z-index: 1001; }
     </style>
 </head>
 <body>
 
-<div id="authPage" style="height:100vh; display:flex; align-items:center; justify-content:center; width:100%; background:#fff;">
-    <div style="width:100%; max-width:320px; text-align:center; padding:20px;">
-        <h1 class="logo" style="margin-bottom:30px; font-size:35px;">Instagram</h1>
+<div id="authPage" style="height:100vh; display:flex; align-items:center; justify-content:center; width:100%;">
+    <div style="width:320px; text-align:center; padding:20px; border:1px solid #dbdbdb; background:white;">
+        <h1 class="logo" style="margin-bottom:30px;">Instagram</h1>
         <input type="text" id="email" class="auth-input" placeholder="Email">
         <input type="password" id="password" class="auth-input" placeholder="Парол">
         <button class="btn-blue" onclick="handleAuth()">Ворид шудан</button>
@@ -96,13 +59,12 @@
 <div id="appPage" class="app-container hidden">
     <header id="mainHeader">
         <div class="logo">Instagram</div>
-        <i class="fa-regular fa-paper-plane" style="font-size:22px; cursor:pointer;" onclick="showPage('chatList')"></i>
     </header>
 
     <div id="page-feed" class="page active-page"><div id="feed-list"></div></div>
 
     <div id="page-search" class="page">
-        <div style="padding:10px;"><input type="text" id="searchInput" class="auth-input" placeholder="Ҷустуҷӯ..." oninput="searchUsers()"></div>
+        <div class="search-bar"><input type="text" id="searchInput" class="auth-input" placeholder="Ҷустуҷӯи корбарон..." oninput="searchUsers()"></div>
         <div id="search-results"></div>
     </div>
 
@@ -117,14 +79,14 @@
     </div>
 
     <div id="page-chatList" class="page">
-        <header style="border:none;"><b>Паёмҳо</b></header>
+        <header style="border-bottom:1px solid #eee;"><b>Паёмҳо</b></header>
         <div id="chat-users-list"></div>
     </div>
 
     <div id="page-direct" class="page">
-        <header><i class="fa-solid fa-arrow-left" onclick="showPage('chatList')"></i><b id="chatTitle">User</b><div></div></header>
+        <header style="justify-content: space-between;"><i class="fa-solid fa-arrow-left" onclick="showPage('chatList')"></i><b id="chatTitle">User</b><div></div></header>
         <div id="msg-box" class="msg-box"></div>
-        <div style="padding:10px; display:flex; gap:10px; border-top:1px solid #eee;">
+        <div style="padding:10px; display:flex; gap:10px; border-top:1px solid #eee; background:white;">
             <input type="text" id="msgInput" placeholder="Паём..." style="flex:1; padding:10px; border-radius:20px; border:1px solid #ddd; outline:none;">
             <button onclick="sendMsg()" style="color:var(--blue); border:none; background:none; font-weight:bold;">Ok</button>
         </div>
@@ -137,7 +99,7 @@
                 <i class="fa-solid fa-right-from-bracket" onclick="logOut()" style="color:red; cursor:pointer; font-size:20px;"></i>
             </div>
             <div style="display:flex; align-items:center; gap:25px; margin-top:20px;">
-                <img id="myAvatar" src="https://via.placeholder.com/150" class="avatar-sm" style="width:80px; height:80px;">
+                <img id="myAvatar" src="" class="avatar-sm" style="width:80px; height:80px;">
                 <div style="display:flex; flex:1; justify-content:space-around; text-align:center; font-size:14px;">
                     <div><b id="count-p">0</b><br>Пост</div>
                     <div><b id="count-f">0</b><br>Обуначи</div>
@@ -153,8 +115,8 @@
     <nav class="nav-bottom">
         <i class="fa-solid fa-house" onclick="showPage('feed')"></i>
         <i class="fa-solid fa-magnifying-glass" onclick="showPage('search')"></i>
+        <i class="fa-regular fa-paper-plane" onclick="showPage('chatList')"></i>
         <i class="fa-regular fa-square-plus" onclick="showPage('create')"></i>
-        <i class="fa-regular fa-heart"></i>
         <i class="fa-regular fa-user" onclick="showPage('profile')"></i>
     </nav>
 </div>
@@ -171,16 +133,16 @@
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
     import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-    import { getFirestore, collection, addDoc, query, orderBy, onSnapshot, doc, updateDoc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+    import { getFirestore, collection, addDoc, query, orderBy, onSnapshot, doc, updateDoc, setDoc, getDoc, where, deleteDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-    // ИНҶО КАЛИДҲОИ ШУМО (Firebase Config)
     const firebaseConfig = {
         apiKey: "AIzaSyDc3JvzuiWLbneEUBKzsrEhB5fOCnOFjhc",
         authDomain: "mygram-74b48.firebaseapp.com",
         projectId: "mygram-74b48",
         storageBucket: "mygram-74b48.firebasestorage.app",
         messagingSenderId: "262338393496",
-        appId: "1:262338393496:web:469efc8a2bba91cd9127ed"
+        appId: "1:262338393496:web:469efc8a2bba91cd9127ed",
+        measurementId: "G-KQ4HQNP22C"
     };
 
     const app = initializeApp(firebaseConfig);
@@ -193,25 +155,23 @@
     let chatID = "";
     let usersAll = [];
 
-    // МАНТИҚИ LOGIN / REGISTRATION
     window.toggleAuth = () => {
         isRegMode = !isRegMode;
         document.getElementById('authToggle').innerText = isRegMode ? "Ворид шудан" : "Сабти ном";
-        document.querySelector('#authPage .btn-blue').innerText = isRegMode ? "Сабти ном" : "Ворид шудан";
+        document.querySelector('.btn-blue').innerText = isRegMode ? "Сабти ном" : "Ворид шудан";
     };
 
     window.handleAuth = () => {
         const e = document.getElementById('email').value;
         const p = document.getElementById('password').value;
         const action = isRegMode ? createUserWithEmailAndPassword : signInWithEmailAndPassword;
-        action(auth, e, p).catch(err => alert("Хатогӣ: " + err.message));
+        action(auth, e, p).catch(alert);
     };
 
     window.logOut = () => {
         if(confirm("Оё мехоҳед аз аккаунт бароед?")) signOut(auth);
     };
 
-    // НАЗОРАТИ ҲОЛАТИ КОРБАР
     onAuthStateChanged(auth, async (user) => {
         if(user) {
             document.getElementById('authPage').classList.add('hidden');
@@ -234,14 +194,13 @@
     }
 
     function updateProfileUI() {
-        document.getElementById('profHeaderName').innerText = myData.name || "Username";
-        document.getElementById('myDisplayName').innerText = myData.name || "Name";
-        document.getElementById('myAvatar').src = myData.pic || "";
+        document.getElementById('profHeaderName').innerText = myData.name;
+        document.getElementById('myDisplayName').innerText = myData.name;
+        document.getElementById('myAvatar').src = myData.pic;
         document.getElementById('count-f').innerText = myData.followers?.length || 0;
         document.getElementById('count-ing').innerText = myData.following?.length || 0;
     }
 
-    // ТАҲРИРИ ПРОФИЛ
     window.openEdit = () => { document.getElementById('overlay').style.display='block'; document.getElementById('editModal').style.display='block'; };
     window.closeEdit = () => { document.getElementById('overlay').style.display='none'; document.getElementById('editModal').style.display='none'; };
     
@@ -254,43 +213,42 @@
         closeEdit();
     };
 
-    // ҲАМАҲАНГСОЗИИ МАЪЛУМОТ (POSTS & CHATS)
-    function syncData() {
-        // Рӯйхати корбарон барои чат
-        onSnapshot(collection(db, "users"), (snap) => {
-            usersAll = snap.docs.map(d => ({id: d.id, ...d.data()}));
-            const cl = document.getElementById('chat-users-list');
-            cl.innerHTML = usersAll.filter(u => u.id !== auth.currentUser.uid).map(u => `
-                <div style="padding:12px; display:flex; align-items:center; gap:12px; border-bottom:1px solid #f5f5f5;" onclick="startChat('${u.id}', '${u.name}')">
-                    <img src="${u.pic}" class="avatar-sm"><b>${u.name}</b>
-                </div>`).join('');
-        });
-
-        // Постҳо
-        onSnapshot(query(collection(db, "posts"), orderBy("time", "desc")), (snap) => {
-            const fl = document.getElementById('feed-list');
-            const gl = document.getElementById('myGrid');
-            fl.innerHTML = ""; gl.innerHTML = "";
-            let pCount = 0;
-            snap.forEach(p => {
-                const d = p.data();
-                fl.innerHTML += `
-                <div class="post">
-                    <div class="post-header"><b>${d.user}</b></div>
-                    <img src="${d.img}" class="post-img">
-                    <div class="post-btns"><i class="fa-regular fa-heart"></i> <i class="fa-regular fa-comment"></i></div>
-                    <div style="padding:0 10px;"><b>${d.user}</b> ${d.cap}</div>
+    window.searchUsers = () => {
+        const val = document.getElementById('searchInput').value.toLowerCase();
+        const res = document.getElementById('search-results');
+        res.innerHTML = "";
+        usersAll.forEach(u => {
+            if(u.name.toLowerCase().includes(val) && u.id !== auth.currentUser.uid) {
+                const isFollowing = myData.following?.includes(u.id);
+                res.innerHTML += `
+                <div class="user-row">
+                    <div style="display:flex; align-items:center; gap:10px;"><img src="${u.pic}" class="avatar-sm"><b>${u.name}</b></div>
+                    <button class="btn-blue" style="width:80px; font-size:12px; background:${isFollowing?'#eee':'var(--blue)'}; color:${isFollowing?'black':'white'}" onclick="follow('${u.id}')">
+                        ${isFollowing ? 'Обунаед' : 'Обуна'}
+                    </button>
                 </div>`;
-                if(d.uid === auth.currentUser.uid) {
-                    pCount++;
-                    gl.innerHTML += `<img src="${d.img}" style="width:100%; aspect-ratio:1/1; object-fit:cover;">`;
-                }
-            });
-            document.getElementById('count-p').innerText = pCount;
+            }
         });
-    }
+    };
 
-    // МАНТИҚИ ЧАТ
+    window.follow = async (uid) => {
+        const isFollowing = myData.following?.includes(uid);
+        const myRef = doc(db, "users", auth.currentUser.uid);
+        const targetRef = doc(db, "users", uid);
+
+        let newFollowing = isFollowing ? myData.following.filter(id => id !== uid) : [...(myData.following || []), uid];
+        await updateDoc(myRef, { following: newFollowing });
+        
+        const targetDoc = await getDoc(targetRef);
+        let targetFollowers = targetDoc.data().followers || [];
+        targetFollowers = isFollowing ? targetFollowers.filter(id => id !== auth.currentUser.uid) : [...targetFollowers, auth.currentUser.uid];
+        await updateDoc(targetRef, { followers: targetFollowers });
+
+        myData.following = newFollowing;
+        updateProfileUI();
+        searchUsers();
+    };
+
     window.startChat = (id, name) => { chatID = id; document.getElementById('chatTitle').innerText = name; showPage('direct'); syncMsgs(); };
     window.sendMsg = async () => {
         const t = document.getElementById('msgInput').value;
@@ -313,7 +271,6 @@
         });
     }
 
-    // ИЛОВАИ ПОСТ
     window.previewImg = (input, id) => {
         const r = new FileReader();
         r.onload = e => { tempImg = e.target.result; document.getElementById(id).src = e.target.result; document.getElementById(id).style.display='block'; };
@@ -323,8 +280,41 @@
     window.uploadPost = async () => {
         if(!tempImg) return;
         await addDoc(collection(db, "posts"), { img: tempImg, cap: document.getElementById('cap').value, uid: auth.currentUser.uid, user: myData.name, time: Date.now() });
-        tempImg = ""; document.getElementById('pre').style.display='none'; document.getElementById('cap').value=""; showPage('feed');
+        tempImg = ""; document.getElementById('pre').style.display='none'; showPage('feed');
     };
+
+    function syncData() {
+        onSnapshot(collection(db, "users"), (snap) => {
+            usersAll = snap.docs.map(d => ({id: d.id, ...d.data()}));
+            const cl = document.getElementById('chat-users-list');
+            cl.innerHTML = usersAll.filter(u => u.id !== auth.currentUser.uid).map(u => `
+                <div class="user-row" onclick="startChat('${u.id}', '${u.name}')">
+                    <div style="display:flex; align-items:center; gap:10px;"><img src="${u.pic}" class="avatar-sm"><b>${u.name}</b></div>
+                    <i class="fa-regular fa-comment"></i>
+                </div>`).join('');
+        });
+
+        onSnapshot(query(collection(db, "posts"), orderBy("time", "desc")), (snap) => {
+            const fl = document.getElementById('feed-list');
+            const gl = document.getElementById('myGrid');
+            fl.innerHTML = ""; gl.innerHTML = "";
+            let pCount = 0;
+            snap.forEach(p => {
+                const d = p.data();
+                fl.innerHTML += `<div class="post">
+                    <div class="post-header"><b>${d.user}</b></div>
+                    <img src="${d.img}" class="post-img">
+                    <div class="post-btns"><i class="fa-regular fa-heart"></i> <i class="fa-regular fa-comment"></i></div>
+                    <div style="padding:0 10px;"><b>${d.user}</b> ${d.cap}</div>
+                </div>`;
+                if(d.uid === auth.currentUser.uid) {
+                    pCount++;
+                    gl.innerHTML += `<img src="${d.img}" style="width:100%; aspect-ratio:1/1; object-fit:cover;">`;
+                }
+            });
+            document.getElementById('count-p').innerText = pCount;
+        });
+    }
 
     window.showPage = (id) => {
         document.querySelectorAll('.page').forEach(p => p.classList.remove('active-page'));
@@ -334,4 +324,3 @@
 </script>
 </body>
 </html>
-
